@@ -89,7 +89,7 @@ public class ExamApplication {
 			remboursement2.setCredit(creditPersonnel);
 			remboursement2.setDate(LocalDate.now());
 			remboursement2.setMontant(450.0);
-			remboursement2.setType(TypeRemboursement.MENSUEL);
+			remboursement2.setType(TypeRemboursement.TRIMESTRIEL);
 			remboursementRepository.save(remboursement2);
 
 			// Create remboursements for the real estate credit
@@ -97,7 +97,7 @@ public class ExamApplication {
 			remboursement3.setCredit(creditImmobilier);
 			remboursement3.setDate(LocalDate.now().minusDays(10));
 			remboursement3.setMontant(1200.0);
-			remboursement3.setType(TypeRemboursement.MENSUEL);
+			remboursement3.setType(TypeRemboursement.ANNUEL);
 			remboursementRepository.save(remboursement3);
 
 			System.out.println("Sample data initialized successfully!");
