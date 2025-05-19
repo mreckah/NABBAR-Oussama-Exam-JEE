@@ -13,26 +13,26 @@ public class CorsConfig {
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
-        
+
         // Allow requests from Angular frontend
         config.addAllowedOrigin("http://localhost:4200");
-        
+
         // Allow common HTTP methods
         config.addAllowedMethod("GET");
         config.addAllowedMethod("POST");
         config.addAllowedMethod("PUT");
         config.addAllowedMethod("DELETE");
         config.addAllowedMethod("OPTIONS");
-        
+
         // Allow all headers
         config.addAllowedHeader("*");
-        
+
         // Allow credentials
         config.setAllowCredentials(true);
-        
+
         // Apply this configuration to all paths
         source.registerCorsConfiguration("/api/**", config);
-        
+
         return new CorsFilter(source);
     }
-} 
+}
