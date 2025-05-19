@@ -3,11 +3,18 @@ import { HomeComponent } from './home/home.component';
 import { ActionComponent } from './action/action.component';
 import { CreditsComponent } from './credits/credits.component';
 import { AddCreditComponent } from './credits/add-credit/add-credit.component';
+import { RemboursementsComponent } from './remboursements/remboursements.component';
 
 export const routes: Routes = [
-  { path: '', component: HomeComponent },
+  { path: '', component: RemboursementsComponent },
   { path: 'home', component: HomeComponent },
   { path: 'action1', component: ActionComponent },
-  { path: 'credits', component: CreditsComponent },
-  { path: 'credits/add', component: AddCreditComponent }
+  { 
+    path: 'credits', 
+    children: [
+      { path: '', component: CreditsComponent },
+      { path: 'add', component: AddCreditComponent }
+    ]
+  },
+  { path: 'remboursements', component: RemboursementsComponent }
 ];

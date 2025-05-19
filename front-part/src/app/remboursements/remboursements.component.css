@@ -1,0 +1,16 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.table {
+  margin-top: 20px;
+}
+
+.btn-sm {
+  margin: 0 5px;
+}
+
+.spinner-border {
+  margin: 20px auto;
+} 

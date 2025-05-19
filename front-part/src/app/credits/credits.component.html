@@ -1,5 +1,5 @@
 <div class="container mt-4">
-  <h2>Credits</h2>
+  <h2>Credits List</h2>
   
   <div *ngIf="loading" class="text-center my-4">
     <div class="spinner-border text-primary" role="status">
@@ -18,36 +18,101 @@
   </div>
 
   <div class="table-responsive" *ngIf="!loading && credits.length > 0">
-    <table class="table table-striped">
-      <thead>
+    <table class="table table-striped table-hover">
+      <thead class="table-dark">
         <tr>
           <th>ID</th>
-          <th>Amount</th>
-          <th>Description</th>
           <th>Type</th>
-          <th>Status</th>
-          <th>Date</th>
+          <th>Montant</th>
+          <th>Statut</th>
+          <th>Date Demande</th>
+          <th>Date Acceptation</th>
+          <th>Durée (mois)</th>
+          <th>Taux (%)</th>
+          <th>Client ID</th>
+          <th>Détails</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let credit of credits">
           <td>{{ credit.id }}</td>
-          <td>{{ credit.amount | currency }}</td>
-          <td>{{ credit.description }}</td>
-          <td>{{ credit.type }}</td>
+          <td>
+            <span class="badge bg-info">{{ credit.typeCredit }}</span>
+          </td>
+          <td>{{ credit.montant | currency:'EUR' }}</td>
           <td>
             <span [ngClass]="{
               'badge': true,
-              'bg-success': credit.status === 'APPROVED',
-              'bg-warning': credit.status === 'PENDING',
-              'bg-danger': credit.status === 'REJECTED'
+              'bg-success': credit.statut === 'ACCEPTE',
+              'bg-warning': credit.statut === 'EN_ATTENTE',
+              'bg-danger': credit.statut === 'REFUSE'
             }">
-              {{ credit.status }}
+              {{ credit.statut }}
             </span>
           </td>
-          <td>{{ credit.date | date:'medium' }}</td>
+          <td>{{ credit.dateDemande | date:'medium' }}</td>
+          <td>{{ credit.dateAcception ? (credit.dateAcception | date:'medium') : 'En attente' }}</td>
+          <td>{{ credit.dureeRemboursement }}</td>
+          <td>{{ credit.tauxInteret }}%</td>
+          <td>{{ credit.clientId }}</td>
+          <td>
+            <button class="btn btn-sm btn-info" (click)="showDetails(credit)">
+              Détails
+            </button>
+          </td>
         </tr>
       </tbody>
     </table>
+  </div>
+
+  <!-- Details Modal -->
+  <div #creditDetailsModal class="modal fade" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Détails du Crédit</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" *ngIf="selectedCredit">
+          <dl class="row">
+            <dt class="col-sm-4">Type de Crédit</dt>
+            <dd class="col-sm-8">{{ selectedCredit.typeCredit }}</dd>
+
+            <dt class="col-sm-4">Montant</dt>
+            <dd class="col-sm-8">{{ selectedCredit.montant | currency:'EUR' }}</dd>
+
+            <dt class="col-sm-4">Statut</dt>
+            <dd class="col-sm-8">
+              <span [ngClass]="{
+                'badge': true,
+                'bg-success': selectedCredit.statut === 'ACCEPTE',
+                'bg-warning': selectedCredit.statut === 'EN_ATTENTE',
+                'bg-danger': selectedCredit.statut === 'REFUSE'
+              }">
+                {{ selectedCredit.statut }}
+              </span>
+            </dd>
+
+            <dt class="col-sm-4">Motif</dt>
+            <dd class="col-sm-8">{{ selectedCredit.motif || 'Non spécifié' }}</dd>
+
+            <dt class="col-sm-4">Type de Bien</dt>
+            <dd class="col-sm-8">{{ selectedCredit.typeBien || 'Non applicable' }}</dd>
+
+            <dt class="col-sm-4">Raison Sociale</dt>
+            <dd class="col-sm-8">{{ selectedCredit.raisonSociale || 'Non spécifié' }}</dd>
+
+            <dt class="col-sm-4">Durée</dt>
+            <dd class="col-sm-8">{{ selectedCredit.dureeRemboursement }} mois</dd>
+
+            <dt class="col-sm-4">Taux d'Intérêt</dt>
+            <dd class="col-sm-8">{{ selectedCredit.tauxInteret }}%</dd>
+          </dl>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

@@ -1,10 +1,15 @@
 export interface Credit {
-    id?: number;
-    amount: number;
-    description: string;
-    date: string;
-    type: string;
-    status: string;
-    userId?: number;
-    // Add any other fields that your backend returns
+    id: number;
+    typeCredit: string;
+    dateAcception: string | null;
+    dateDemande: string;
+    dureeRemboursement: number;
+    montant: number;
+    statut: 'ACCEPTE' | 'EN_ATTENTE' | 'REFUSE';
+    tauxInteret: number;
+    typeBien: string | null;
+    motif: string | null;
+    raisonSociale: string | null;
+    clientId: number;
+    remboursements: any[] | null;
 } 
