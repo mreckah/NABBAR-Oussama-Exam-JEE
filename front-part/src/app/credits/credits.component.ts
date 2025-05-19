@@ -14,6 +14,7 @@ import { Credit } from './credit.interface';
 export class CreditsComponent implements OnInit {
   credits: Credit[] = [];
   error: string = '';
+  loading: boolean = false;
 
   constructor(private creditService: CreditService) {}
 
@@ -22,14 +23,23 @@ export class CreditsComponent implements OnInit {
   }
 
   loadCredits(): void {
+    this.loading = true;
+    this.error = '';
+    
     this.creditService.getCredits().subscribe({
       next: (data) => {
         this.credits = data;
+        this.loading = false;
       },
       error: (error) => {
-        this.error = 'Error loading credits. Please try again later.';
+        this.error = error.message || 'Error loading credits. Please try again later.';
+        this.loading = false;
         console.error('Error loading credits:', error);
       }
     });
+  }
+
+  retry(): void {
+    this.loadCredits();
   }
 }
