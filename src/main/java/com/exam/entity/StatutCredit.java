@@ -1,7 +1,7 @@
 package com.exam.entity;
 
 public enum StatutCredit {
-    EN_COURS,
+    EN_ATTENTE,
     ACCEPTE,
-    REJETE
+    REFUSE
 }

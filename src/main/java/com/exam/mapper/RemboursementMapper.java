@@ -3,10 +3,15 @@ package com.exam.mapper;
 import com.exam.dto.RemboursementDTO;
 import com.exam.entity.Credit;
 import com.exam.entity.Remboursement;
+import com.exam.repository.CreditRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class RemboursementMapper {
+
+    private final CreditRepository creditRepository;
 
     public RemboursementDTO toDTO(Remboursement remboursement) {
         if (remboursement == null) {
@@ -18,12 +23,11 @@ public class RemboursementMapper {
         dto.setDate(remboursement.getDate());
         dto.setMontant(remboursement.getMontant());
         dto.setType(remboursement.getType());
-        dto.setCreditId(remboursement.getCredit() != null ? remboursement.getCredit().getId() : null);
-
+        dto.setCreditId(remboursement.getCredit().getId());
         return dto;
     }
 
-    public Remboursement toEntity(RemboursementDTO dto, Credit credit) {
+    public Remboursement toEntity(RemboursementDTO dto) {
         if (dto == null) {
             return null;
         }
@@ -33,7 +37,12 @@ public class RemboursementMapper {
         remboursement.setDate(dto.getDate());
         remboursement.setMontant(dto.getMontant());
         remboursement.setType(dto.getType());
-        remboursement.setCredit(credit);
+
+        if (dto.getCreditId() != null) {
+            Credit credit = creditRepository.findById(dto.getCreditId())
+                    .orElseThrow(() -> new RuntimeException("Credit not found with id: " + dto.getCreditId()));
+            remboursement.setCredit(credit);
+        }
 
         return remboursement;
     }
