@@ -1,0 +1,83 @@
+<div class="container mt-4">
+  <h2>Add New Credit</h2>
+
+  <div *ngIf="error" class="alert alert-danger" role="alert">
+    {{ error }}
+  </div>
+
+  <div *ngIf="success" class="alert alert-success" role="alert">
+    {{ success }}
+  </div>
+
+  <form [formGroup]="creditForm" (ngSubmit)="onSubmit()" class="mt-4">
+    <div class="mb-3">
+      <label for="amount" class="form-label">Amount</label>
+      <input
+        type="number"
+        class="form-control"
+        id="amount"
+        formControlName="amount"
+        [ngClass]="{'is-invalid': creditForm.get('amount')?.invalid && creditForm.get('amount')?.touched}"
+      >
+      <div class="invalid-feedback" *ngIf="creditForm.get('amount')?.errors?.['required']">
+        Amount is required
+      </div>
+      <div class="invalid-feedback" *ngIf="creditForm.get('amount')?.errors?.['min']">
+        Amount must be greater than 0
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="description" class="form-label">Description</label>
+      <textarea
+        class="form-control"
+        id="description"
+        formControlName="description"
+        rows="3"
+        [ngClass]="{'is-invalid': creditForm.get('description')?.invalid && creditForm.get('description')?.touched}"
+      ></textarea>
+      <div class="invalid-feedback" *ngIf="creditForm.get('description')?.errors?.['required']">
+        Description is required
+      </div>
+      <div class="invalid-feedback" *ngIf="creditForm.get('description')?.errors?.['minlength']">
+        Description must be at least 3 characters
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="type" class="form-label">Type</label>
+      <select
+        class="form-select"
+        id="type"
+        formControlName="type"
+        [ngClass]="{'is-invalid': creditForm.get('type')?.invalid && creditForm.get('type')?.touched}"
+      >
+        <option value="">Select a type</option>
+        <option value="LOAN">Loan</option>
+        <option value="CREDIT">Credit</option>
+        <option value="MORTGAGE">Mortgage</option>
+      </select>
+      <div class="invalid-feedback" *ngIf="creditForm.get('type')?.errors?.['required']">
+        Type is required
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="date" class="form-label">Date</label>
+      <input
+        type="date"
+        class="form-control"
+        id="date"
+        formControlName="date"
+        [ngClass]="{'is-invalid': creditForm.get('date')?.invalid && creditForm.get('date')?.touched}"
+      >
+      <div class="invalid-feedback" *ngIf="creditForm.get('date')?.errors?.['required']">
+        Date is required
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary" [disabled]="creditForm.invalid">
+      Add Credit
+    </button>
+  </form>
+</div> 
